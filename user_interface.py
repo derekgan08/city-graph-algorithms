@@ -12,6 +12,9 @@ def menu():
         2: Check whether the graph has any cycle
         3: Check the shortest path between 2 vertices
         4: Check the Minimum Spanning Tree (MST)
+        5: Reset Graph
+        6: Add New Edges
+        7: Remove Edges
         """
         )
 
@@ -92,4 +95,43 @@ def function_interface(choice, graph):
             graph.print_graph(selected_graph=mst, curve=False, title="Minimum Spanning Tree")
         else:
             print("No edges was selected.")
-        
+
+    elif choice == 5:
+        os.system('cls')
+        print("===========================================================")
+        print("| Function 5:  Reset Graph                                 |")
+        print("===========================================================")
+        print_graph = str(input("Print graph after reset? [y/n]")).lower()
+        if print_graph == 'y':
+            graph.reset_graph(print_graph=True)
+        else:
+            graph.reset_graph()
+    
+    elif choice == 6:
+        os.system('cls')
+        print("===========================================================")
+        print("| Function 6:  Add New Edge                                |")
+        print("===========================================================")
+        while True:
+            print("\nWhich edge would you like to add?")
+            print("Available Edges:", [i for i in graph.available_edges()], "\n")
+            start_vertex = input("From: ")
+            end_vertex = input("To: ")
+            if graph.edge_input_validation(start_vertex, end_vertex):
+                graph.add_new_edge(start_vertex, end_vertex)
+                break
+    
+    elif choice == 7:
+        os.system('cls')
+        print("===========================================================")
+        print("| Function 7:  Remove Edge                                |")
+        print("===========================================================")
+        print("\nWhich edge would you like to remove?")
+        print("Removable Edges:", [i for i in graph.removable_edges()], "\n")
+        start_vertex = input("From: ")
+        end_vertex = input("To: ")
+        graph.remove_edge(start_vertex, end_vertex)
+    
+    else:
+        print("Something went wrong when taking user input, you have an input error. Try making an input again.")
+        return
