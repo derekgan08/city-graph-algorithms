@@ -1,5 +1,6 @@
 import networkx as nx
 import networkx.exception
+import matplotlib.pyplot as plt
 import random
 import os
 
@@ -60,3 +61,31 @@ class Graph:
             print("This edge does not exist. It could be because this edge is not in the graph"
                   "\nOR"
                   "\nThe direction of the edge is wrong")
+            
+    '''
+    Function to print the graph
+    If there is no graph or subgraph provided, the program will print the graph available inside the Graph class
+    else, it will print the graph or subgraph provided
+    
+    If curve is specified to be false, the graph produced will have a straight line curve, this is to cater for printing
+    the spanning tree at function 4
+    
+    The function will also print the title of the graph if the title is given
+    '''
+
+    def print_graph(self, selected_graph=None, curve=True, title=None):
+        plt.title(title)
+        if selected_graph is None:
+            pos = nx.get_node_attributes(self.graph, "pos")
+            labels = nx.get_edge_attributes(self.graph, "weight")
+            nx.draw(self.graph, pos, with_labels=True, font_weight='bold',
+                    connectionstyle="arc3,rad=0.3" if curve else "arc3")
+            nx.draw_networkx_edge_labels(self.graph, pos, edge_labels=labels, font_size=7)
+        else:
+            pos = nx.get_node_attributes(selected_graph, "pos")
+            labels = nx.get_edge_attributes(selected_graph, "weight")
+            nx.draw_networkx(selected_graph, pos, with_labels=True, font_weight='bold',
+                             connectionstyle="arc3,rad=0.3" if curve else "arc3")
+            nx.draw_networkx_edge_labels(selected_graph, pos, edge_labels=labels, font_size=7)
+
+        plt.show()
