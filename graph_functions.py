@@ -1,4 +1,5 @@
 import networkx as nx
+import networkx.exception
 import random
 import os
 
@@ -49,3 +50,13 @@ class Graph:
     def add_new_edge(self, v1, v2):
         self.graph.add_edge(v1, v2)
         self.print_graph(title="Graph with newly added edge")
+
+    # Remove edge enter by user
+    def remove_edge(self, v1, v2):
+        try:
+            self.graph.remove_edge(v1, v2)
+            self.print_graph(title="Graph with removed edge")
+        except networkx.exception.NetworkXError:
+            print("This edge does not exist. It could be because this edge is not in the graph"
+                  "\nOR"
+                  "\nThe direction of the edge is wrong")
