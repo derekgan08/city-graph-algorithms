@@ -44,3 +44,8 @@ class Graph:
 
         if print_graph:
             self.print_graph()
+
+    # Add new edge enter by user
+    def add_new_edge(self, v1, v2):
+        self.graph.add_edge(v1, v2)
+        self.print_graph(title="Graph with newly added edge")
