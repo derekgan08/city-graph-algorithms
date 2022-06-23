@@ -89,3 +89,15 @@ class Graph:
             nx.draw_networkx_edge_labels(selected_graph, pos, edge_labels=labels, font_size=7)
 
         plt.show()
+
+    # Print the adjacency list of the graph
+    def print_adjacency_list(self):
+        print("==================================")
+        print("Adjacency List for graph, first column is the starting vertex, while the following columns are adjacent "
+              "vertices")
+        for line in nx.generate_adjlist(self.graph):
+            print(line)
+
+    # Check if the graph has a cycle, return True if a cycle is detected
+    def has_cycle(self):
+        return len(sorted(nx.simple_cycles(self.graph))) > 0
