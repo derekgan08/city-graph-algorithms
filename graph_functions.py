@@ -101,3 +101,69 @@ class Graph:
     # Check if the graph has a cycle, return True if a cycle is detected
     def has_cycle(self):
         return len(sorted(nx.simple_cycles(self.graph))) > 0
+    
+    '''
+    Add a random edge in the graph.
+    It will also return the vertices where the random edge was added.
+    
+    This function will also work either a graph is provided or not.
+    '''
+    def add_random_edge(self, selected_graph=None):
+        # Define the other edge's distance
+        distance_LA_SB = 9704
+        distance_LA_RM = 10190
+        distance_BL_RM = 1184
+        distance_BL_MV = 11817
+        distance_SB_MV = 11477
+        distance_LA_BL = 9310
+        distance_SB_BL = 526
+        distance_RM_SB = 659
+        distance_MV_RM = 11032
+        distance_LA_MV = 10020
+
+        edge_distance = 0
+        # Get the list of nodes that dose not have an edge, then randomly choose from there
+        non_edges = list(nx.non_edges(self.graph if selected_graph is None else selected_graph))
+
+        # Abort this function if there are already no empty available edges in the graph
+        if len(non_edges) == 0:
+            return
+
+        # Compute the edge distance based on the vertex combination
+        chosen_edge = list(random.choice(non_edges))
+        if (chosen_edge[0] == "LA" or chosen_edge[1] == "LA") and (chosen_edge[0] == "SB" or chosen_edge[1] == "SB"):
+            edge_distance = distance_LA_SB
+        elif (chosen_edge[0] == "LA" or chosen_edge[1] == "LA") and (chosen_edge[0] == "RM" or chosen_edge[1] == "RM"):
+            edge_distance = distance_LA_RM
+        elif (chosen_edge[0] == "BL" or chosen_edge[1] == "BL") and (chosen_edge[0] == "RM" or chosen_edge[1] == "RM"):
+            edge_distance = distance_BL_RM
+        elif (chosen_edge[0] == "BL" or chosen_edge[1] == "BL") and (chosen_edge[0] == "MV" or chosen_edge[1] == "MV"):
+            edge_distance = distance_BL_MV
+        elif (chosen_edge[0] == "SB" or chosen_edge[1] == "SB") and (chosen_edge[0] == "MV" or chosen_edge[1] == "MV"):
+            edge_distance = distance_SB_MV
+        elif (chosen_edge[0] == "LA" or chosen_edge[1] == "LA") and (chosen_edge[0] == "BL" or chosen_edge[1] == "BL"):
+            edge_distance = distance_LA_BL
+        elif (chosen_edge[0] == "SB" or chosen_edge[1] == "SB") and (chosen_edge[0] == "BL" or chosen_edge[1] == "BL"):
+            edge_distance = distance_SB_BL
+        elif (chosen_edge[0] == "RM" or chosen_edge[1] == "RM") and (chosen_edge[0] == "SB" or chosen_edge[1] == "SB"):
+            edge_distance = distance_RM_SB
+        elif (chosen_edge[0] == "MV" or chosen_edge[1] == "MV") and (chosen_edge[0] == "RM" or chosen_edge[1] == "RM"):
+            edge_distance = distance_MV_RM
+        elif (chosen_edge[0] == "LA" or chosen_edge[1] == "LA") and (chosen_edge[0] == "MV" or chosen_edge[1] == "MV"):
+            edge_distance = distance_LA_MV
+
+        '''
+        Because of the edges generated is from an undirected graph, the direction will always be the same. The only
+        random choice made is just the choice of edge. The code statements below will randomly select the starting edge
+        and the ending edge randomly to produce a random direction.
+        '''
+        start_vertex = random.choice(chosen_edge)
+        chosen_edge.remove(start_vertex)
+        end_vertex = chosen_edge[0]
+
+        # Add the random edge
+        (self.graph if selected_graph is None else selected_graph).add_weighted_edges_from([
+            (start_vertex, end_vertex, edge_distance)
+        ])
+
+        return [start_vertex, end_vertex]
