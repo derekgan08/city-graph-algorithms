@@ -167,3 +167,11 @@ class Graph:
         ])
 
         return [start_vertex, end_vertex]
+    
+    # Display list of edges in the graph to ease user to select
+    def available_edges(self):
+        return list(nx.non_edges(self.graph))
+
+    # Display list of removable edges to ease user to select which to remove
+    def removable_edges(self):
+        return list(nx.edges(self.graph))
