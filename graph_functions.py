@@ -175,3 +175,14 @@ class Graph:
     # Display list of removable edges to ease user to select which to remove
     def removable_edges(self):
         return list(nx.edges(self.graph))
+    
+    # Restriction for edge selection
+    def edge_input_validation(self, start_vertex, end_vertex):
+        if (start_vertex, end_vertex) in self.graph.edges:
+            print("Edge already exists! Try another one.")
+            return False
+        elif (start_vertex, end_vertex) not in self.available_edges():
+            print("Invalid Edge! Try another one.")
+            return False
+        else:
+            return True
