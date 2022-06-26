@@ -186,3 +186,32 @@ class Graph:
             return False
         else:
             return True
+        
+    # Check strong connectivity
+    def function_one(self):
+        # List of random added edges
+        added_edges = []
+        
+        # Determine if the graph is strongly connected by using the networkx built-in function is_strongly_connected
+        # This function returns True is it is a strongly connected graph
+        print("\nStrongly Connected Graph: " + str(nx.is_strongly_connected(self.graph)))
+        input("\nPress any key to continue...")
+        
+        # Generate random edge until a strongly connected graph is found
+        while not nx.is_strongly_connected(self.graph):
+            added_edges.append(self.add_random_edge())
+
+        # Prompt user to press any key to proceed to viewing the results
+        input("\nPress any key to view the graph.")
+        os.system('cls') # clear the screen
+        
+        # Print the graph after a strongly connected graph is found
+        print("\nStrongly Connected Graph: " + str(nx.is_strongly_connected(self.graph)))
+        
+        # Only display the added edges if any edges is added 
+        if len(added_edges) != 0:   
+            print("\nNumber of Added Edges: ", len(added_edges))
+            print("Randomly Added edges: ", [i for i in added_edges])
+            
+        self.print_graph(title="Strongly Connected Graph")
+        self.print_adjacency_list()
