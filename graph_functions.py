@@ -215,3 +215,15 @@ class Graph:
             
         self.print_graph(title="Strongly Connected Graph")
         self.print_adjacency_list()
+
+    # Check if got cycle
+    def function_two(self):
+        while not self.has_cycle():
+            print("Graph does not has a cycle, adding random edges.")
+            self.add_random_edge()
+        cycle_path = sorted(nx.simple_cycles(self.graph))[0]
+        print("The cycle within the graph is from: " + str(cycle_path))
+
+        subgraph = self.graph.subgraph(cycle_path)
+        self.print_graph(selected_graph=subgraph, title="The graph cycle")
+        self.print_adjacency_list()
