@@ -227,3 +227,25 @@ class Graph:
         subgraph = self.graph.subgraph(cycle_path)
         self.print_graph(selected_graph=subgraph, title="The graph cycle")
         self.print_adjacency_list()
+
+    # Compute shortest path
+    def function_three(self, start_vertex, end_vertex):
+        # If the vertex given is not inside the graph, abort the function
+        if start_vertex not in list(self.graph.nodes) and end_vertex not in list(self.graph.nodes):
+            print("Invalid input. Please enter valid locations only.")
+            return
+
+        # If no path between both vertices, we will add random edges until there is a path between selected edges,
+        while not nx.has_path(self.graph, start_vertex, end_vertex):
+            print(f"Does not have path from {start_vertex} to {end_vertex}. Generating random edges.")
+            self.add_random_edge()
+
+        if len(nx.shortest_path(self.graph, start_vertex, end_vertex)) > 0:
+            # Stores a subgraph generated from adding a random edge
+            subgraph = self.graph.subgraph(nx.shortest_path(self.graph, start_vertex, end_vertex))
+            self.print_graph(selected_graph=subgraph, curve=False, title="Shortest path")
+            plt.pause(0.1)
+        else:
+            print("Random edges added did not produce a path between the selected vertex.")
+
+        self.print_adjacency_list()
