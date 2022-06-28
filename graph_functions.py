@@ -249,3 +249,35 @@ class Graph:
             print("Random edges added did not produce a path between the selected vertex.")
 
         self.print_adjacency_list()
+
+    # Compute Minimum Spanning Tree (MST)
+    def function_four(self, selected_edges):
+        mst = None
+
+        '''
+        First generate a subgraph without the edge between the vertices selected by the user by using the
+        restricted view function.
+        
+        Then check whether the graph produces a MST. If it produces a MST, break the loop and print the MST.
+        If not, loop continuously by adding edges until a MST is produced.
+        The loop will will exit if there are no more edges to add.
+        '''
+        subgraph = self.graph.edge_subgraph([i for i in list(self.graph.edges) if i not in selected_edges]).copy()
+
+        while True:
+            try:
+                if nx.minimum_spanning_arborescence(subgraph):
+                    mst = nx.minimum_spanning_arborescence(subgraph)
+                    for node in mst:
+                        mst.nodes[node]["pos"] = self.graph.nodes[node]["pos"]
+                    break
+            except nx.exception.NetworkXException:
+                if len(list(nx.non_edges(subgraph))) > 0:
+                    print("No MST generated, adding random edges.")
+                    self.add_random_edge(selected_graph=subgraph)
+                else:
+                    print("No more edges to add.")
+                    break
+
+        self.print_adjacency_list()
+        return mst
